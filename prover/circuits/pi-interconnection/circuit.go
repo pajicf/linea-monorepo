@@ -148,6 +148,9 @@ func (c *Circuit) Define(api frontend.API) error {
 	for i, piq := range c.ExecutionFPIQ {
 		piq.RangeCheck(api)
 
+		// inRange is a binary value indicating that the current execution
+		// being looked at in the current iteration is an actual execution and
+		// not some padding.
 		inRange := rExecution.InRange[i]
 		rollingHashNotUpdated := api.Select(inRange, api.IsZero(piq.FinalRollingHashNumber), 1) // padded input past nbExecutions is not required to be 0. So we multiply by inRange
 
